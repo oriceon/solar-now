@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls as QQC2
+import QtQuick.Dialogs as QtDialogs
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
@@ -19,16 +20,6 @@ ConfigPage {
      */
     readonly property var languageValues: ["auto", "ro", "en"]
     readonly property var fontScaleValues: [90, 100, 110, 125, 140, 160]
-    readonly property var fontChoices: {
-        const choices = ["Auto"];
-        const families = Qt.fontFamilies();
-
-        for (let index = 0; index < families.length; index++) {
-            choices.push(families[index]);
-        }
-
-        return choices;
-    }
     readonly property var tabIds: ["flow", "day", "history", "balance", "alerts", "device"]
     /** What the panel can show, in the order it shows them. */
     readonly property var compactIds: ["battery", "solar", "load", "grid"]
@@ -78,13 +69,32 @@ ConfigPage {
             onActivated: index => page.cfg_fontScale = page.fontScaleValues[index]
         }
 
-        QQC2.ComboBox {
+        RowLayout {
             Kirigami.FormData.label: I18n.t(page.language, "config.fontFamily")
-            model: page.fontChoices
-            // "Auto", the first choice, is the font of the Plasma theme.
-            currentIndex: Math.max(0, page.fontChoices.indexOf(page.cfg_fontFamily))
+            spacing: Kirigami.Units.smallSpacing
 
-            onActivated: index => page.cfg_fontFamily = index === 0 ? "" : page.fontChoices[index]
+            QQC2.Label {
+                // Empty is the font of the Plasma theme.
+                text: page.cfg_fontFamily !== "" ? page.cfg_fontFamily : I18n.t(page.language, "config.fontTheme")
+            }
+
+            QQC2.Button {
+                icon.name: "settings-configure"
+                text: I18n.t(page.language, "config.fontChoose")
+
+                onClicked: {
+                    fontDialog.selectedFont = Qt.font({ family: page.cfg_fontFamily !== "" ? page.cfg_fontFamily : Kirigami.Theme.defaultFont.family });
+                    fontDialog.open();
+                }
+            }
+
+            QQC2.Button {
+                visible: page.cfg_fontFamily !== ""
+                icon.name: "edit-undo"
+                text: I18n.t(page.language, "config.fontReset")
+
+                onClicked: page.cfg_fontFamily = ""
+            }
         }
 
         ColumnLayout {
@@ -282,5 +292,18 @@ ConfigPage {
                 }
             }
         }
+    }
+
+    // The fonts are listed in a dialog of their own. A ComboBox of the desktop style made a row for
+    // every installed font as the page opened and laid them all out again as the list opened, and
+    // with a few hundred fonts Plasma froze for seconds, both times.
+    QtDialogs.FontDialog {
+        id: fontDialog
+
+        title: I18n.t(page.language, "config.fontDialogTitle")
+        modality: Qt.WindowModal
+        parentWindow: page.Window.window
+
+        onAccepted: page.cfg_fontFamily = selectedFont.family
     }
 }
