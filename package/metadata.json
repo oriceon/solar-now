@@ -10,11 +10,11 @@
         "Category": "System Information",
         "Description": "Live power flow of a solar installation monitored in Deye Cloud: panels, battery, grid and consumption. Unofficial, not affiliated with Deye",
         "Description[ro]": "Fluxul de energie al unei instalații fotovoltaice urmărite în Deye Cloud: panouri, baterie, rețea și consum. Neoficial, fără legătură cu Deye",
-        "Icon": "battery-full-charging",
+        "Icon": "/icons/solar-now.png",
         "Id": "ro.oriceon.solar",
         "License": "GPL-2.0-or-later",
         "Name": "Solar Now",
-        "Version": "1.0.2"
+        "Version": "1.0.3"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
 }

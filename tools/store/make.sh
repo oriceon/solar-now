@@ -37,3 +37,11 @@ done
 
 unset QT_SCALE_FACTOR
 "$PY" "$HERE/render.py" "$HERE/logo.qml" "$ROOT/store/solar-now-logo.png"
+
+# The same picture, at 256 px, is the icon of the widget in Add Widgets ("Icon" in metadata.json, a path
+# inside contents/ since Plasma 6.7). Still, as Plasma draws it: an animated one would stop at its first frame.
+"$PY" -c 'import sys
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QGuiApplication, QImage
+QGuiApplication([])
+QImage(sys.argv[1]).scaled(256, 256, Qt.KeepAspectRatio, Qt.SmoothTransformation).save(sys.argv[2])' "$ROOT/store/solar-now-logo.png" "$ROOT/package/contents/icons/solar-now.png"

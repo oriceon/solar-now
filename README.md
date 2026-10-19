@@ -40,7 +40,7 @@ From Plasma: right-click the desktop → **Add Widgets…** → **Get New Widget
 From a release, with the `.plasmoid` file from the [releases page](https://github.com/oriceon/solar-now/releases):
 
 ```bash
-kpackagetool6 --type Plasma/Applet --install solar-now-1.0.2.plasmoid
+kpackagetool6 --type Plasma/Applet --install solar-now-1.0.3.plasmoid
 ```
 
 From this repository:
