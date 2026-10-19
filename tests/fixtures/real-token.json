@@ -1,0 +1,12 @@
+{
+    "code": "1000000",
+    "msg": "success",
+    "success": true,
+    "requestId": "a9c7bf49b2656991",
+    "accessToken": "token-removed",
+    "tokenType": "bearer",
+    "refreshToken": "token-removed",
+    "expiresIn": "5183999",
+    "scope": "all",
+    "uid": 0
+}

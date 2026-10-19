@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<!-- Makes Noto Sans, the font of Plasma, the default sans-serif; @FONTS@ is the folder with its .ttf files. -->
+<fontconfig>
+  <include ignore_missing="yes">/etc/fonts/fonts.conf</include>
+  <dir>@FONTS@</dir>
+  <!-- The system Noto Sans (fonts-noto-core, 2020, Regular and Bold only) would mix with the one above. -->
+  <selectfont><rejectfont><glob>/usr/share/fonts/truetype/noto/NotoSans-*</glob></rejectfont></selectfont>
+  <cachedir>@FONTS@/cache</cachedir>
+  <alias binding="strong"><family>sans-serif</family><prefer><family>Noto Sans</family></prefer></alias>
+</fontconfig>

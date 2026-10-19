@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name=""/>
+
+    <group name="General">
+        <entry name="region" type="String">
+            <label>Data centre of the Deye Cloud account: eu, us, india or custom</label>
+            <default>eu</default>
+        </entry>
+        <entry name="customUrl" type="String">
+            <label>Address of the API when region is custom</label>
+            <default></default>
+        </entry>
+        <entry name="appId" type="String">
+            <default></default>
+        </entry>
+        <entry name="appSecret" type="String">
+            <default></default>
+        </entry>
+        <entry name="login" type="String">
+            <label>Email or username of the Deye Cloud account</label>
+            <default></default>
+        </entry>
+        <entry name="passwordHash" type="String">
+            <label>SHA-256 of the password, kept only while rememberPassword is on; never the password itself</label>
+            <default></default>
+        </entry>
+        <entry name="rememberPassword" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="companyId" type="String">
+            <label>Only for business accounts</label>
+            <default></default>
+        </entry>
+        <entry name="accessToken" type="String">
+            <default></default>
+        </entry>
+        <entry name="tokenExpiresAt" type="Double">
+            <label>Seconds since 1970</label>
+            <default>0</default>
+        </entry>
+        <entry name="stationId" type="String">
+            <label>Empty until a station is picked; a String because the ids are 64-bit</label>
+            <default></default>
+        </entry>
+        <entry name="stationName" type="String">
+            <default></default>
+        </entry>
+
+        <entry name="refreshMinutes" type="Int">
+            <default>5</default>
+        </entry>
+        <entry name="showTotals" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="idleBelow" type="Int">
+            <label>Watts under which a line of the graph shows no flow</label>
+            <default>1</default>
+        </entry>
+        <entry name="lowBattery" type="Int">
+            <label>Percent under which the battery is drawn as low</label>
+            <default>20</default>
+        </entry>
+        <entry name="batteryCapacity" type="Double">
+            <label>Capacity of the battery in kWh; 0 takes it from what the inverter reports</label>
+            <default>0</default>
+        </entry>
+        <entry name="batteryReserve" type="Int">
+            <label>Percent under which the inverter no longer draws from the battery</label>
+            <default>20</default>
+        </entry>
+        <entry name="showForecast" type="Bool">
+            <label>Estimate the production of today and tomorrow from the forecast of solar radiation</label>
+            <default>true</default>
+        </entry>
+        <entry name="forecastHost" type="String">
+            <label>Where the forecast of solar radiation is asked for; not shown in the settings</label>
+            <default>https://api.open-meteo.com</default>
+        </entry>
+        <entry name="notifyBattery" type="Bool">
+            <label>Notify when the battery falls under lowBattery</label>
+            <default>true</default>
+        </entry>
+        <entry name="notifySilent" type="Bool">
+            <label>Notify when the station stops reporting</label>
+            <default>true</default>
+        </entry>
+        <entry name="notifyAlerts" type="Bool">
+            <label>Notify when the station raises a new alert</label>
+            <default>true</default>
+        </entry>
+        <entry name="priceBuy" type="Double">
+            <label>What a kilowatt-hour from the grid costs; 0 hides the money</label>
+            <default>0</default>
+        </entry>
+        <entry name="priceSell" type="Double">
+            <label>What a kilowatt-hour sent to the grid brings</label>
+            <default>0</default>
+        </entry>
+        <entry name="currency" type="String">
+            <default>lei</default>
+        </entry>
+        <entry name="invertGrid" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="invertBattery" type="Bool">
+            <default>false</default>
+        </entry>
+
+        <entry name="language" type="String">
+            <label>auto, ro or en</label>
+            <default>auto</default>
+        </entry>
+        <entry name="fontScale" type="Int">
+            <label>Percent of the font size of the Plasma theme</label>
+            <default>100</default>
+        </entry>
+        <entry name="fontFamily" type="String">
+            <label>Empty for the font of the Plasma theme</label>
+            <default></default>
+        </entry>
+        <entry name="powerUnit" type="String">
+            <label>auto, w or kw</label>
+            <default>auto</default>
+        </entry>
+        <entry name="background" type="String">
+            <label>black, theme or none</label>
+            <default>black</default>
+        </entry>
+        <entry name="animations" type="String">
+            <label>full, reduced or off</label>
+            <default>full</default>
+        </entry>
+        <entry name="colorSolar" type="String">
+            <default>#ffc53d</default>
+        </entry>
+        <entry name="colorGrid" type="String">
+            <default>#8b9dff</default>
+        </entry>
+        <entry name="colorBattery" type="String">
+            <default>#3ddc97</default>
+        </entry>
+        <entry name="colorLoad" type="String">
+            <default>#4cc9f0</default>
+        </entry>
+        <entry name="hiddenTabs" type="StringList">
+            <label>Ids of the tabs that are turned off: flow, day, history, balance, alerts, device</label>
+            <default></default>
+        </entry>
+        <entry name="compactItems" type="StringList">
+            <label>What the panel shows: battery, solar, load, grid</label>
+            <default>battery,solar</default>
+        </entry>
+    </group>
+</kcfg>

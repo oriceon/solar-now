@@ -1,0 +1,29 @@
+{
+    "code": "1000000",
+    "msg": "success",
+    "success": true,
+    "requestId": "97cca14a9cbdaf9e",
+    "total": 1,
+    "stationList": [
+        {
+            "id": 61000001,
+            "name": "Stația mea",
+            "locationLat": 0,
+            "locationLng": 0,
+            "locationAddress": "",
+            "regionNationId": 189,
+            "countryCode": null,
+            "regionTimezone": "Asia/Beirut",
+            "gridInterconnectionType": "BATTERY_BACKUP",
+            "installedCapacity": 16.1,
+            "startOperatingTime": 1779192254,
+            "createdDate": 1779193057,
+            "batterySOC": 47,
+            "connectionStatus": "NORMAL",
+            "generationPower": 0,
+            "lastUpdateTime": 1791909274,
+            "contactPhone": "",
+            "ownerName": null
+        }
+    ]
+}

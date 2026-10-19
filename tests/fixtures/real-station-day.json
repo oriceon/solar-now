@@ -1,0 +1,42 @@
+{
+    "code": "1000000",
+    "msg": "success",
+    "success": true,
+    "requestId": "528f543a7226d7b0",
+    "total": 1,
+    "stationDataItems": [
+        {
+            "generationPower": null,
+            "consumptionPower": null,
+            "gridPower": null,
+            "purchasePower": null,
+            "wirePower": null,
+            "chargePower": null,
+            "dischargePower": null,
+            "batteryPower": null,
+            "batterySOC": null,
+            "irradiateIntensity": null,
+            "generationValue": 8.5,
+            "generationRatio": 71.76471,
+            "gridRatio": 0,
+            "chargeRatio": 28.23529,
+            "consumptionValue": 18.7,
+            "consumptionRatio": null,
+            "purchaseRatio": 1.06952,
+            "consumptionDischargeRatio": 66.31016,
+            "gridValue": 0,
+            "purchaseValue": 0.2,
+            "chargeValue": 2.4,
+            "dischargeValue": 12.4,
+            "fullPowerHours": 0.52795,
+            "irradiate": null,
+            "theoreticalGeneration": null,
+            "pr": null,
+            "cpr": null,
+            "timeStamp": null,
+            "year": 2026,
+            "month": 10,
+            "day": 13
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "code": "1000000",
+    "msg": "success",
+    "success": true,
+    "requestId": "86ac89953f2cb01b",
+    "generationPower": 0,
+    "consumptionPower": 896,
+    "gridPower": null,
+    "purchasePower": null,
+    "wirePower": 12,
+    "chargePower": null,
+    "dischargePower": 927,
+    "batteryPower": 927,
+    "batterySOC": 47,
+    "irradiateIntensity": null,
+    "lastUpdateTime": 1791909274
+}

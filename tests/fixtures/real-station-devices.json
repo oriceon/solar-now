@@ -1,0 +1,27 @@
+{
+    "code": "1000000",
+    "msg": "success",
+    "success": true,
+    "requestId": "eb4fd3feb3b00a64",
+    "total": 2,
+    "deviceListItems": [
+        {
+            "deviceSn": "SN0001",
+            "deviceId": 0,
+            "deviceType": "COLLECTOR",
+            "connectStatus": 1,
+            "collectionTime": 1791909274,
+            "productId": "0_D0002_18",
+            "stationId": 61000001
+        },
+        {
+            "deviceSn": "SN0002",
+            "deviceId": 0,
+            "deviceType": "INVERTER",
+            "connectStatus": 1,
+            "collectionTime": 1791909274,
+            "productId": "0_5411_1",
+            "stationId": 61000001
+        }
+    ]
+}
