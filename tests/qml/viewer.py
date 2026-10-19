@@ -29,7 +29,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("QT_QUICK_BACKEND", "software")
 os.environ.setdefault("QT_QUICK_CONTROLS_STYLE", "Basic")
 
-from PySide6.QtCore import Q_ARG, QMetaObject, QTimer, QUrl, QtMsgType, qInstallMessageHandler
+from PySide6.QtCore import Q_ARG, QElapsedTimer, QMetaObject, QTimer, QUrl, QtMsgType, qInstallMessageHandler
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlComponent, QQmlListReference, qmlRegisterSingletonType, qmlRegisterType
 from PySide6.QtQuick import QQuickItem, QQuickView
@@ -426,6 +426,30 @@ def build_config(engine, arguments, configuration):
     return page
 
 
+def record_frames(view, out, count, interval, done):
+    """
+    Saves `count` screenshots, one every `interval` milliseconds, as out-0000.png, out-0001.png…,
+    and in out-times.txt the millisecond each was taken at, for an animation with the real timing.
+    """
+    stem = str(Path(out).with_suffix(""))
+    clock = QElapsedTimer()
+    times = []
+
+    def grab():
+        view.grabWindow().save(f"{stem}-{len(times):04d}.png")
+        times.append(clock.elapsed())
+
+        if len(times) < count:
+            # Aimed at the next tick of the timeline, so that slow frames do not stretch it.
+            QTimer.singleShot(max(0, interval * len(times) - clock.elapsed()), grab)
+        else:
+            Path(f"{stem}-times.txt").write_text("".join(f"{time}\n" for time in times))
+            done()
+
+    clock.start()
+    grab()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("what", choices=["stage", "applet", "config"])
@@ -455,6 +479,8 @@ def main():
     parser.add_argument("--price-buy", type=float, default=0, help="stage: what a kilowatt-hour from the grid costs")
     parser.add_argument("--price-sell", type=float, default=0, help="stage: what a kilowatt-hour sent to the grid brings")
     parser.add_argument("--picker", action="store_true", help="stage: the list of stations hangs open")
+    parser.add_argument("--frames", type=int, default=0, metavar="COUNT", help="save COUNT screenshots instead of one, as OUT-0000.png…, with their times in OUT-times.txt")
+    parser.add_argument("--frame-interval", type=int, default=66, metavar="MS", help="milliseconds between those screenshots")
     parser.add_argument("--station-name", default="Acasă", help="stage: the name of the station in the header")
     parser.add_argument("--currency", default="lei", help="stage: the currency of the prices")
     parser.add_argument("--real", action="store_true", help="stage: show the answers recorded by tools/capture.mjs instead of the made-up ones")
@@ -529,6 +555,9 @@ def main():
     view.show()
     fit()
 
+    def frames():
+        record_frames(view, arguments.out, arguments.frames, arguments.frame_interval, shoot)
+
     def shoot():
         for line in MockDeye.log:
             print(f"mock: {line}")
@@ -599,7 +628,7 @@ def main():
     if arguments.connect is not None:
         QTimer.singleShot(400, connect)
     else:
-        QTimer.singleShot(arguments.wait, watch_motion if arguments.expect_motion else shoot)
+        QTimer.singleShot(arguments.wait, watch_motion if arguments.expect_motion else frames if arguments.frames else shoot)
 
     application.exec()
 

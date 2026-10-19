@@ -4,7 +4,7 @@ A Plasma 6 widget that shows the live power flow of a solar installation monitor
 
 **Unofficial. Not made, endorsed or supported by Deye.**
 
-![The Flow tab](store/solar-now-1-flow.png)
+![The Flow tab, with the energy moving along the lines](store/solar-now-flow.webp)
 
 ## Tabs
 
@@ -15,9 +15,7 @@ A Plasma 6 widget that shows the live power flow of a solar installation monitor
 - **Alerts**: the alerts raised by the station
 - **Inverter**: everything the inverter reports, in groups
 
-| Day | History | Balance |
-|---|---|---|
-| ![Day](store/solar-now-2-day.png) | ![History](store/solar-now-3-history.png) | ![Balance](store/solar-now-4-balance.png) |
+![A tour of the tabs: Flow, Day, History, Balance and Inverter](store/solar-now-tour.webp)
 
 ## Also
 
@@ -86,7 +84,7 @@ python viewer.py applet out.png --mock --tab 1  # the whole widget, against a lo
 python viewer.py config out.png --page 0 --mock # a page of the settings
 ```
 
-`tools/capture.mjs` asks Deye Cloud what the widget asks it, with a real account, and saves the answers in `tests/fixtures/real-*.json` with everything personal taken out. It only reads. `tools/store/make.sh` remakes the pictures in `store/`.
+`tools/capture.mjs` asks Deye Cloud what the widget asks it, with a real account, and saves the answers in `tests/fixtures/real-*.json` with everything personal taken out. It only reads. `tools/store/make.sh` remakes the pictures for the KDE Store in `store/`, and `tools/store/animations.sh` the animations of this page; the latter needs Pillow (`pip install pillow`).
 
 ## Credits and licence
 
