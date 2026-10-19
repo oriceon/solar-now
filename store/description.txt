@@ -34,6 +34,7 @@ The AppSecret and the token (valid for 60 days) are kept unencrypted in the Plas
 
 Tested on Plasma 6.7 with a three-phase hybrid inverter and a battery. Business (company) accounts have not been tested.
 The screenshots show data recorded from a real installation.
+Source code and issues: https://github.com/oriceon/solar-now
 
 Solar radiation data: Open-Meteo (open-meteo.com), CC BY 4.0.
 Licence: GPL-2.0-or-later.
