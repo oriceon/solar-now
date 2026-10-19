@@ -198,13 +198,21 @@ QtObject {
         });
     }
 
-    /** After a refresh asked for by hand, nothing about the present is trusted any more. */
+    /**
+     * After a refresh asked for by hand, what is about the present is asked for again. Left as they are:
+     * a request still on its way, which would only be sent twice; what came less than a minute ago; and
+     * what does not change from one minute to the next, the stations, the devices and the estimate.
+     */
     function refresh(): void {
         const next = {};
+        const now = Date.now();
+        const lasting = [stationsKey(), devicesKey()];
 
-        // A request still on its way is left to answer: asking again would only send it twice.
         Object.keys(entries).forEach(key => {
-            next[key] = entries[key].status === "loading" ? entries[key] : Object.assign({}, entries[key], { at: 0 });
+            const entry = entries[key];
+            const keep = entry.status === "loading" || lasting.indexOf(key) !== -1 || key.indexOf("|forecast|") !== -1 || !Cache.worthRefreshing(entry.at, now);
+
+            next[key] = keep ? entry : Object.assign({}, entry, { at: 0 });
         });
 
         entries = next;

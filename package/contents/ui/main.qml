@@ -5,6 +5,7 @@ import org.kde.kirigami as Kirigami
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid
 
+import "../code/cache.mjs" as Cache
 import "../code/flow.mjs" as Flow
 import "../code/format.mjs" as Format
 import "../code/i18n.mjs" as I18n
@@ -67,7 +68,7 @@ PlasmoidItem {
      */
     property real now: Date.now()
     /** The data on screen is older than a few refreshes take. */
-    readonly property bool stale: updatedAt > 0 && now / 1000 - updatedAt > Math.max(15, Plasmoid.configuration.refreshMinutes * 3) * 60
+    readonly property bool stale: updatedAt > 0 && now / 1000 - updatedAt > Math.max(15, Cache.refreshMinutes(Plasmoid.configuration.refreshMinutes) * 3) * 60
 
     // The minimum size of the full representation: anything smaller shows the compact one.
     switchWidth: Kirigami.Units.gridUnit * 18 * Math.max(1, fontScale)
@@ -152,8 +153,12 @@ PlasmoidItem {
         });
     }
 
+    /** The refresh button: within a minute of the last answer, Deye has nothing newer to tell, unless asking failed. */
     function refreshAll(): void {
-        store.refresh();
+        if (store.problem !== "" || Cache.worthRefreshing(store.fetchedAt.getTime(), Date.now())) {
+            store.refresh();
+        }
+
         archive.refresh();
     }
 
@@ -292,7 +297,7 @@ PlasmoidItem {
         accessToken: Plasmoid.configuration.accessToken
         tokenExpiresAt: Plasmoid.configuration.tokenExpiresAt
         stationId: Plasmoid.configuration.stationId
-        refreshMinutes: Plasmoid.configuration.refreshMinutes
+        refreshMinutes: Cache.refreshMinutes(Plasmoid.configuration.refreshMinutes)
         totalsEnabled: Plasmoid.configuration.showTotals
 
         onTokenIssued: (accessToken, expiresAt) => {

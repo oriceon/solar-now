@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
 
+import "../../code/cache.mjs" as Cache
 import "../../code/format.mjs" as Format
 import "../../code/i18n.mjs" as I18n
 
@@ -13,7 +14,7 @@ ConfigPage {
     id: page
 
     readonly property string language: I18n.resolveLanguage(Plasmoid.configuration.language, Qt.locale().uiLanguages)
-    readonly property var refreshValues: [1, 2, 5, 10, 15, 30]
+    readonly property var refreshValues: Cache.REFRESH_CHOICES
     readonly property real hintWidth: Kirigami.Units.gridUnit * 22
     readonly property string decimalMark: language === "ro" ? "," : "."
 
@@ -44,7 +45,7 @@ ConfigPage {
         QQC2.ComboBox {
             Kirigami.FormData.label: I18n.t(page.language, "config.refresh")
             model: page.refreshValues.map(minutes => `${minutes} min`)
-            currentIndex: page.refreshValues.indexOf(page.cfg_refreshMinutes)
+            currentIndex: page.refreshValues.indexOf(Cache.refreshMinutes(page.cfg_refreshMinutes))
 
             onActivated: index => page.cfg_refreshMinutes = page.refreshValues[index]
         }

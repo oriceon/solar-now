@@ -166,7 +166,7 @@ export const STRINGS = {
         'config.applyHint': 'Apasă „Aplică” ca widgetul să folosească datele noi.',
 
         'config.refresh': 'Actualizare la',
-        'config.refreshHint': 'Deye reîmprospătează datele stației cel mult o dată la 5 minute.',
+        'config.refreshHint': 'Deye reîmprospătează datele stației cel mult o dată la 5 minute; mai des s-ar primi aceleași date.',
         'config.totals': 'Totalurile zilei',
         'config.totalsShow': 'Arată ce s-a produs și s-a consumat azi',
         'config.idleBelow': 'Flux oprit sub',
@@ -364,7 +364,7 @@ export const STRINGS = {
         'config.applyHint': 'Press “Apply” for the widget to use the new data.',
 
         'config.refresh': 'Refresh every',
-        'config.refreshHint': 'Deye refreshes the data of a station at most once every 5 minutes.',
+        'config.refreshHint': 'Deye refreshes the data of a station at most once every 5 minutes; asking more often would bring the same data.',
         'config.totals': 'Totals of the day',
         'config.totalsShow': 'Show what was produced and used today',
         'config.idleBelow': 'No flow below',
