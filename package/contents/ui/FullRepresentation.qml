@@ -160,6 +160,11 @@ Item {
         };
     }
 
+    /** off, ready, loading, waiting or none: see estimateState() in code/forecast.mjs. */
+    readonly property string forecastState: Forecast.estimateState(showForecast, archive.entries[archive.stationsKey()], place, archive.entries[archive.forecastKey(today)])
+    /** Until it comes, the estimate says it is on its way, so that it does not look missing. */
+    readonly property bool forecastPending: forecastState === "loading" || forecastState === "waiting"
+
     /** The estimate needs to know where the station is. */
     function loadForecast(): void {
         if (showForecast && place !== null) {
@@ -356,9 +361,42 @@ Item {
         }
     }
 
+    // A failed estimate is asked for again sooner than the live data is refreshed, a few times.
+    Timer {
+        id: forecastRetry
+
+        /** How many times in a row it was asked for again without coming. */
+        property int failures: 0
+
+        onTriggered: {
+            failures++;
+            full.archive.loadStations();
+            full.loadForecast();
+        }
+    }
+
+    onForecastStateChanged: {
+        const minutes = Forecast.retryMinutes(forecastRetry.failures);
+
+        if (forecastState === "waiting" && minutes !== null) {
+            forecastRetry.interval = minutes * 60 * 1000;
+            forecastRetry.restart();
+
+            return;
+        }
+
+        forecastRetry.stop();
+
+        if (forecastState !== "loading" && forecastState !== "waiting") {
+            forecastRetry.failures = 0;
+        }
+    }
     onPlaceChanged: Qt.callLater(full.loadForecast)
     onShowForecastChanged: Qt.callLater(full.loadForecast)
-    Component.onCompleted: Qt.callLater(full.archive.loadStations)
+    Component.onCompleted: Qt.callLater(() => {
+        full.archive.loadStations();
+        full.loadForecast();
+    })
 
     Component {
         id: flowTab
@@ -379,6 +417,7 @@ Item {
             batteryCapacity: full.batteryCapacity
             batteryReserve: full.batteryReserve
             forecast: full.forecast
+            forecastPending: full.forecastPending
         }
     }
 

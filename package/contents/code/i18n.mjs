@@ -92,6 +92,7 @@ export const STRINGS = {
         'forecast.title': 'Estimare de producție',
         'forecast.today': 'azi circa {value}',
         'forecast.tomorrow': 'mâine circa {value}',
+        'forecast.pending': 'se calculează…',
         'forecast.source': 'Radiația solară de la {source}',
 
         'money.saved': 'Economisit',
@@ -290,6 +291,7 @@ export const STRINGS = {
         'forecast.title': 'Expected production',
         'forecast.today': 'about {value} today',
         'forecast.tomorrow': 'about {value} tomorrow',
+        'forecast.pending': 'being worked out…',
         'forecast.source': 'Solar radiation from {source}',
 
         'money.saved': 'Saved',

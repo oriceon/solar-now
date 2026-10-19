@@ -33,11 +33,13 @@ ColumnLayout {
     required property real batteryReserve
     /** `{ today, tomorrow }`, each expectedProduction() of code/forecast.mjs or null; null when there is no estimate to show. */
     required property var forecast
+    /** True while the estimate is on its way: it is shown as such, in its place. */
+    required property bool forecastPending
 
     /** "Estimare de producție: azi circa 12,4 kWh, mâine circa 32,0 kWh", with whichever of the two is known. */
     readonly property string forecastSummary: {
         if (forecast === null) {
-            return "";
+            return forecastPending ? `${I18n.t(language, "forecast.title")}: ${I18n.t(language, "forecast.pending")}` : "";
         }
 
         const parts = [];

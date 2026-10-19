@@ -74,7 +74,8 @@ PlasmoidItem {
     switchWidth: Kirigami.Units.gridUnit * 18 * Math.max(1, fontScale)
     switchHeight: Kirigami.Units.gridUnit * 20 * Math.max(1, fontScale)
 
-    Plasmoid.icon: "battery-full-charging"
+    // The logo, as in Add Widgets: Plasma shows it in the notification of a removed widget.
+    Plasmoid.icon: Qt.resolvedUrl("../icons/solar-now.png").toString()
     // On the desktop the widget draws its own background, unless it is asked to keep the one of the theme.
     Plasmoid.backgroundHints: Plasmoid.configuration.background === "theme" ? PlasmaCore.Types.DefaultBackground : PlasmaCore.Types.NoBackground
     toolTipMainText: Plasmoid.configuration.stationName !== "" ? Plasmoid.configuration.stationName : Plasmoid.title

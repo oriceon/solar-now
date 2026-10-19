@@ -59,7 +59,8 @@ MouseArea {
         width: compact.iconSide
         height: width
         visible: !compact.showing
-        source: Plasmoid.icon
+        // A symbol, as the other icons of a panel; the logo is in colour.
+        source: "battery-full-charging"
     }
 
     GridLayout {

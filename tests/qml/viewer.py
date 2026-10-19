@@ -91,8 +91,10 @@ class MockDeye(BaseHTTPRequestHandler):
     """Answers like the Deye Cloud OpenAPI does, from the fixtures, and keeps a log of what it was asked."""
 
     log = []
-    #: offline answers nothing useful, rate answers 429, anything else behaves.
+    #: offline answers nothing useful, rate answers 429, radiation-once fails the first forecast of
+    #: Open-Meteo and answers the next ones, anything else behaves.
     behaviour = "ok"
+    radiation_asked = 0
 
     def log_message(self, *arguments):
         pass
@@ -111,6 +113,13 @@ class MockDeye(BaseHTTPRequestHandler):
 
         if target.path != "/v1/forecast":
             self.answer(404, "{}")
+            return
+
+        MockDeye.radiation_asked += 1
+
+        if MockDeye.behaviour == "radiation-once" and MockDeye.radiation_asked == 1:
+            self.answer(503, "{}")
+            MockDeye.log.append(f"GET {target.path} -> 503")
             return
 
         recorded = json.loads(fixture("openmeteo-radiation.json"))
@@ -491,7 +500,7 @@ def main():
     parser.add_argument("--compact", action="store_true", help="applet: show the panel representation")
     parser.add_argument("--page", type=int, default=0)
     parser.add_argument("--mock", action="store_true", help="applet, config: talk to a local stand-in for Deye Cloud, with a configured account")
-    parser.add_argument("--mock-behaviour", default="ok", choices=["ok", "rate", "offline"])
+    parser.add_argument("--mock-behaviour", default="ok", choices=["ok", "rate", "offline", "radiation-once"])
     parser.add_argument("--stale-token", action="store_true", help="applet: start with a token the API refuses, so that it has to be renewed")
     parser.add_argument("--forget-password", action="store_true", help="applet: no password kept, so a refused token cannot be renewed")
     parser.add_argument("--connect", default=None, metavar="PASSWORD", help="config: type PASSWORD on the account page and press Connect")

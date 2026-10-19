@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { parseDailyGeneration, readResponse, recentDaysRequest } from '../package/contents/code/deye.mjs';
-import { expectedProduction, parseRadiation, radiationUrl } from '../package/contents/code/forecast.mjs';
+import { estimateState, expectedProduction, parseRadiation, radiationUrl, retryMinutes } from '../package/contents/code/forecast.mjs';
 
 const text = (name) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), 'utf8');
 // Recorded from Open-Meteo on 2026-10-13, for made-up coordinates.
@@ -79,4 +79,36 @@ test('a day without a forecast of radiation has no estimate', () => {
     const days = ['2026-10-09', '2026-10-10', '2026-10-11', '2026-10-12'].map((date) => ({ date: date, generation: radiation[date] * 3 }));
 
     assert.equal(expectedProduction(days, radiation, '2026-10-20'), null);
+});
+
+const place = { id: '1', latitude: 44.18, longitude: 28.63 };
+
+test('a turned off estimate is neither shown nor asked for', () => {
+    assert.equal(estimateState(false, undefined, null, undefined), 'off');
+});
+
+// On a widget set up a moment ago, nothing has been asked for yet: the estimate is on its way, not missing.
+test('an estimate not asked for yet, or failed, is waiting to be asked for', () => {
+    assert.equal(estimateState(true, undefined, null, undefined), 'waiting');
+    assert.equal(estimateState(true, { status: 'failed', data: null }, null, undefined), 'waiting');
+    assert.equal(estimateState(true, { status: 'ready', data: [place] }, place, undefined), 'waiting');
+    assert.equal(estimateState(true, { status: 'ready', data: [place] }, place, { status: 'failed', data: null }), 'waiting');
+});
+
+test('an estimate whose stations or radiation are on their way is loading', () => {
+    assert.equal(estimateState(true, { status: 'loading', data: null }, null, undefined), 'loading');
+    assert.equal(estimateState(true, { status: 'ready', data: [place] }, place, { status: 'loading', data: null }), 'loading');
+});
+
+test('an estimate on hand stays shown while it is asked for again, and after that fails', () => {
+    assert.equal(estimateState(true, { status: 'ready', data: [place] }, place, { status: 'loading', data: {} }), 'ready');
+    assert.equal(estimateState(true, { status: 'ready', data: [place] }, place, { status: 'failed', data: {} }), 'ready');
+});
+
+test('a station listed without its place has no estimate', () => {
+    assert.equal(estimateState(true, { status: 'ready', data: [] }, null, undefined), 'none');
+});
+
+test('a failed estimate is asked for again after one, two and four minutes, then with the refreshes of the live data', () => {
+    assert.deepEqual([0, 1, 2, 3].map(retryMinutes), [1, 2, 4, null]);
 });

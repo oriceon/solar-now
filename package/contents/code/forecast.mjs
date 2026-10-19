@@ -60,3 +60,43 @@ export function expectedProduction(days, radiation, date) {
 
     return { kwh: Number((median(yields) * radiation[date]).toFixed(1)), days: yields.length };
 }
+
+function asking(entry) {
+    return entry !== undefined && entry !== null && entry.status === 'loading' ? 'loading' : 'waiting';
+}
+
+/**
+ * Where the estimate stands, from what ArchiveStore has on hand.
+ *
+ * @param shown    whether the estimate is turned on
+ * @param stations the entry of the stations of the account, `{ status, data }`; undefined while not asked for
+ * @param place    the station on show as listed there, with its coordinates; null when not listed with them
+ * @param answer   the entry of the estimate, likewise
+ * @returns off; ready, with something on hand; loading, on its way; waiting, not asked for yet or failed;
+ *          none, when the station is listed without its place and there is nothing to estimate for
+ */
+export function estimateState(shown, stations, place, answer) {
+    if (!shown) {
+        return 'off';
+    }
+
+    if (place === null) {
+        return stations !== undefined && stations !== null && stations.data !== null ? 'none' : asking(stations);
+    }
+
+    return answer !== undefined && answer !== null && answer.data !== null ? 'ready' : asking(answer);
+}
+
+/** How many times in a row an estimate that failed is asked for again sooner than the live data is refreshed. */
+const RETRIES = 3;
+
+/**
+ * Minutes after which an estimate that failed is asked for again: one, then two, then four. After
+ * that it waits for the refreshes of the live data, so that a service that stays down is not asked
+ * every minute.
+ *
+ * @param failures how many times in a row it failed before; null when it is not to be asked for sooner
+ */
+export function retryMinutes(failures) {
+    return failures < RETRIES ? 2 ** failures : null;
+}
