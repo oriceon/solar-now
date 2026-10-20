@@ -28,6 +28,7 @@ Item {
     property bool stale: false
     property string animations: "off"
     property string background: "black"
+    property int backgroundTransparency: 100
     property string powerUnit: "auto"
     property real fontScale: 1
     property string fontFamily: ""
@@ -101,6 +102,7 @@ Item {
         fontFamily: stage.fontFamily
         animations: stage.animations
         background: stage.background
+        backgroundTransparency: stage.backgroundTransparency
         powerUnit: stage.powerUnit
         colours: stage.colours
         showTotals: stage.showTotals

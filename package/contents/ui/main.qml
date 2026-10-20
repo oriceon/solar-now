@@ -70,9 +70,10 @@ PlasmoidItem {
     /** The data on screen is older than a few refreshes take. */
     readonly property bool stale: updatedAt > 0 && now / 1000 - updatedAt > Math.max(15, Cache.refreshMinutes(Plasmoid.configuration.refreshMinutes) * 3) * 60
 
-    // The minimum size of the full representation: anything smaller shows the compact one.
-    switchWidth: Kirigami.Units.gridUnit * 18 * Math.max(1, fontScale)
-    switchHeight: Kirigami.Units.gridUnit * 20 * Math.max(1, fontScale)
+    // On the desktop the widget is always shown whole, and Plasma keeps it at least as big as that
+    // needs; in a panel it is the icon that opens it. With switch sizes, a desktop widget smaller
+    // than them, even one at its own minimum, which was the same size, turned into an oversized icon.
+    preferredRepresentation: Plasmoid.formFactor === PlasmaCore.Types.Horizontal || Plasmoid.formFactor === PlasmaCore.Types.Vertical ? compactRepresentation : fullRepresentation
 
     // The logo, as in Add Widgets: Plasma shows it in the notification of a removed widget.
     Plasmoid.icon: Qt.resolvedUrl("../icons/solar-now.png").toString()
@@ -195,6 +196,7 @@ PlasmoidItem {
         fontFamily: Plasmoid.configuration.fontFamily
         animations: Plasmoid.configuration.animations
         background: Plasmoid.configuration.background
+        backgroundTransparency: Plasmoid.configuration.backgroundTransparency
         powerUnit: Plasmoid.configuration.powerUnit
         colours: root.colours
         showTotals: Plasmoid.configuration.showTotals

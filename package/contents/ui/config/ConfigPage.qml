@@ -80,6 +80,8 @@ KCM.SimpleKCM {
     property string cfg_powerUnitDefault
     property string cfg_background
     property string cfg_backgroundDefault
+    property int cfg_backgroundTransparency
+    property int cfg_backgroundTransparencyDefault
     property string cfg_animations
     property string cfg_animationsDefault
     property string cfg_colorSolar

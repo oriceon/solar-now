@@ -21,7 +21,7 @@ Item {
     required property var flow
     required property string language
     required property var typography
-    /** Colours of the surroundings, as text: `{ text, secondary, card, edge, track }`. */
+    /** Colours of the surroundings, as text: `{ text, secondary, idle, card, edge, track }`. */
     required property var scheme
     /** Colour of every source and consumer, as text: `{ solar, grid, battery, load }`. */
     required property var colours
@@ -104,7 +104,7 @@ Item {
     }
 
     function tint(colour: string, active: bool): string {
-        return active ? colour : scheme.secondary;
+        return active ? colour : scheme.idle;
     }
 
     FontMetrics {
@@ -330,7 +330,7 @@ Item {
 
         Icons.InverterIcon {
             anchors.fill: parent
-            tint: graph.flow.busy ? graph.scheme.text : graph.scheme.secondary
+            tint: graph.flow.busy ? graph.scheme.text : graph.scheme.idle
             accent: graph.colours.solar
             busy: graph.flow.busy
             clock: graph.iconClock

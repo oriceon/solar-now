@@ -205,8 +205,7 @@ ColumnLayout {
                         typography: tab.typography
                         relativeSize: 0.78
                         elide: Text.ElideRight
-                        // Lighter than the other secondary texts: small, on a dark card, it read too faint.
-                        color: Qt.tint(tab.scheme.secondary, Qt.alpha(tab.scheme.text, 0.45))
+                        color: tab.scheme.secondary
                         text: I18n.t(tab.language, `totals.${total.modelData.key}`)
                     }
 

@@ -23,7 +23,7 @@ Item {
     readonly property var alerts: entry !== null && entry.data !== null ? entry.data : []
     /** loading, failed, empty or ready */
     readonly property string status: alerts.length > 0 ? "ready" : entry === null || entry.status === "loading" ? "loading" : entry.status === "failed" ? "failed" : "empty"
-    readonly property var levelColours: ({ notice: scheme.secondary, warning: "#ffb454", failure: warningColour })
+    readonly property var levelColours: ({ notice: scheme.idle, warning: "#ffb454", failure: warningColour })
 
     /** "13.10 12:00 – 12:10" for an alert that ended the day it started, both dates otherwise, the start alone while it is open. */
     function when(alert: var): string {

@@ -33,6 +33,7 @@ from PySide6.QtCore import Q_ARG, QElapsedTimer, QMetaObject, QTimer, QUrl, QtMs
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlComponent, QQmlListReference, qmlRegisterSingletonType, qmlRegisterType
 from PySide6.QtQuick import QQuickItem, QQuickView
+from shiboken6 import getCppPointer
 
 import shim_kirigami  # noqa: F401 - importing registers the QML types
 import shim_plasmoid
@@ -343,6 +344,7 @@ def build_stage(engine, arguments, configuration):
         "stale": arguments.stale,
         "animations": arguments.animations,
         "background": arguments.background,
+        "backgroundTransparency": arguments.transparency,
         "powerUnit": arguments.unit,
         "fontScale": arguments.font_scale,
         "fontFamily": arguments.font,
@@ -391,6 +393,10 @@ def build_applet(engine, arguments, configuration):
 
         print(f"applet: status={root.property('status')!r} tooltip={root.property('toolTipMainText')!r} / {root.property('toolTipSubText')!r}")
         print(f"applet: token kept={settings.value('accessToken')!r} expires in {round((settings.value('tokenExpiresAt') - __import__('time').time()) / 86400)} days; backgroundHints={applet.property('backgroundHints')}")
+        # What Plasma shows where switch sizes are not set: the representation the widget prefers.
+        preferred = root.property("preferredRepresentation")
+        shown = "none" if preferred is None else "full" if getCppPointer(preferred) == getCppPointer(root.property("fullRepresentation")) else "compact"
+        print(f"applet: shown={shown}")
 
     QTimer.singleShot(max(0, arguments.wait - 100), report)
 
@@ -474,6 +480,8 @@ def main():
     parser.add_argument("--stale", action="store_true", help="stage: the station has been silent for long")
     parser.add_argument("--animations", default="off", choices=["full", "reduced", "off"], help="stage: off gives a still, repeatable picture")
     parser.add_argument("--background", default="black", choices=["black", "theme", "none"])
+    parser.add_argument("--transparency", type=int, default=100, help="stage: percent of transparency of the transparent background")
+    parser.add_argument("--form-factor", default="horizontal", choices=list(shim_plasmoid.FORM_FACTORS), help="applet: where the widget is: planar is the desktop")
     parser.add_argument("--unit", default="auto", choices=["auto", "w", "kw"])
     parser.add_argument("--font-scale", type=float, default=1.0)
     parser.add_argument("--font", default="")
@@ -547,6 +555,7 @@ def main():
 
     theme = view.engine().singletonInstance("org.kde.kirigami", "Theme")
     theme.setProperty("dark", not arguments.light)
+    shim_plasmoid.form_factor[0] = shim_plasmoid.FORM_FACTORS[arguments.form_factor]
 
     background = configuration["background"] if arguments.what == "applet" else arguments.background
     view.rootObject().setProperty("framed", arguments.what == "config" or background == "theme")

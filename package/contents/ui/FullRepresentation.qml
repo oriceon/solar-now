@@ -42,6 +42,8 @@ Item {
     required property string animations
     /** black | theme | none */
     required property string background
+    /** Percent: how much of the desktop shows through the transparent background; 100 is none at all. */
+    required property int backgroundTransparency
     /** auto | w | kw */
     required property string powerUnit
     /** Colour of every source and consumer, as text: `{ solar, grid, battery, load }`. */
@@ -86,13 +88,19 @@ Item {
     })
     /** On its own black background the widget brings its own colours; otherwise it follows the Plasma theme. */
     readonly property bool ownColours: background === "black"
+    /**
+     * `idle` is the grey of what stands still, the lines and icons of an idle flow; `secondary`, the
+     * grey of the texts, is that grey taken most of the way to the colour of the text, so that the
+     * small texts read well on a dark background.
+     */
     readonly property var scheme: ownColours
-        ? ({ text: "#f4f6fa", secondary: "#8d95a8", card: "#0c0f15", edge: "#262b36", track: "#3b4252", colourfulText: true })
+        ? ({ text: "#f4f6fa", secondary: textGrey("#8d95a8", "#f4f6fa"), idle: "#8d95a8", card: "#0c0f15", edge: "#262b36", track: "#3b4252", colourfulText: true })
         : ({
             // The bright colours of the nodes read well as text on a dark theme, not on a light one.
             colourfulText: Colours.isDark(Kirigami.Theme.backgroundColor.r, Kirigami.Theme.backgroundColor.g, Kirigami.Theme.backgroundColor.b),
             text: String(Kirigami.Theme.textColor),
-            secondary: String(Kirigami.Theme.disabledTextColor),
+            secondary: textGrey(Kirigami.Theme.disabledTextColor, Kirigami.Theme.textColor),
+            idle: String(Kirigami.Theme.disabledTextColor),
             card: String(Qt.alpha(Kirigami.Theme.textColor, 0.06)),
             edge: String(Qt.alpha(Kirigami.Theme.textColor, 0.2)),
             track: String(Kirigami.Theme.disabledTextColor),
@@ -165,6 +173,11 @@ Item {
     /** Until it comes, the estimate says it is on its way, so that it does not look missing. */
     readonly property bool forecastPending: forecastState === "loading" || forecastState === "waiting"
 
+    /** The grey of the texts: `grey` taken 65% of the way to `text`. */
+    function textGrey(grey: color, text: color): string {
+        return String(Qt.tint(grey, Qt.alpha(text, 0.65)));
+    }
+
     /** The estimate needs to know where the station is. */
     function loadForecast(): void {
         if (showForecast && place !== null) {
@@ -206,11 +219,12 @@ Item {
     Layout.preferredWidth: Kirigami.Units.gridUnit * 24 * roomFactor
     Layout.preferredHeight: Kirigami.Units.gridUnit * 25 * roomFactor
 
+    // The black background, or the colour of the Plasma theme behind the transparent one, as much as asked.
     Rectangle {
         anchors.fill: parent
-        visible: full.ownColours
+        visible: full.ownColours || (full.background === "none" && full.backgroundTransparency < 100)
         radius: Kirigami.Units.cornerRadius * 2
-        color: "#000000"
+        color: full.ownColours ? "#000000" : Qt.alpha(Kirigami.Theme.backgroundColor, 1 - full.backgroundTransparency / 100)
     }
 
     ColumnLayout {

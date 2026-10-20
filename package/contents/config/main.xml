@@ -129,6 +129,12 @@
             <label>black, theme or none</label>
             <default>theme</default>
         </entry>
+        <entry name="backgroundTransparency" type="Int">
+            <label>How transparent the transparent background is, in percent: 0 is the background of the Plasma theme, 100 is none at all.</label>
+            <default>100</default>
+            <min>0</min>
+            <max>100</max>
+        </entry>
         <entry name="animations" type="String">
             <label>full, reduced or off</label>
             <default>full</default>
