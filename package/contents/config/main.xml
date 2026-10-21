@@ -118,7 +118,7 @@
             <default>100</default>
         </entry>
         <entry name="fontFamily" type="String">
-            <label>Empty for the font of the Plasma theme</label>
+            <label>Empty for Inter, the font that comes with the widget, named Solar Now Inter.</label>
             <default></default>
         </entry>
         <entry name="powerUnit" type="String">
@@ -127,11 +127,11 @@
         </entry>
         <entry name="background" type="String">
             <label>black, theme or none</label>
-            <default>theme</default>
+            <default>none</default>
         </entry>
         <entry name="backgroundTransparency" type="Int">
             <label>How transparent the transparent background is, in percent: 0 is the background of the Plasma theme, 100 is none at all.</label>
-            <default>100</default>
+            <default>80</default>
             <min>0</min>
             <max>100</max>
         </entry>

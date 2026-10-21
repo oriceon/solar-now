@@ -25,11 +25,11 @@ A Plasma 6 widget that shows the live power flow of a solar installation monitor
 - Estimate of today's and tomorrow's production, learned from the last two weeks of your own installation and the solar radiation forecast by Open-Meteo (can be turned off)
 - Several stations on one account: pick one from the header
 - English and Romanian; follows the language of Plasma by default
-- Colours, background, font, text size, units, animations and visible tabs are configurable
+- Inter as its font, included, or any other one; colours, background, text size, units, animations and visible tabs are configurable
 
 ## What you need
 
-- Plasma 6 (tested on Plasma 6.7)
+- Plasma 6.1 or later (tested on Plasma 6.7)
 - A Deye Cloud account with your installation in it
 - Your own AppId and AppSecret: create an application in the [Deye Cloud Developer Portal](https://developer.deyecloud.com). Each user uses their own keys, under the Deye Cloud Developer Agreement.
 
@@ -40,7 +40,7 @@ From Plasma: right-click the desktop → **Add Widgets…** → **Get New Widget
 From a release, with the `.plasmoid` file from the [releases page](https://github.com/oriceon/solar-now/releases):
 
 ```bash
-kpackagetool6 --type Plasma/Applet --install solar-now-1.0.6.plasmoid
+kpackagetool6 --type Plasma/Applet --install solar-now-1.0.7.plasmoid
 ```
 
 From this repository:
@@ -88,6 +88,6 @@ python viewer.py config out.png --page 0 --mock # a page of the settings
 
 ## Credits and licence
 
-Solar radiation data: [Open-Meteo](https://open-meteo.com), CC BY 4.0. The fonts in `tools/store/fonts/` are Noto Sans, under the SIL Open Font License.
+Solar radiation data: [Open-Meteo](https://open-meteo.com), CC BY 4.0. Font: [Inter](https://rsms.me/inter/) by Rasmus Andersson and the Inter Project Authors, SIL Open Font License 1.1 (see `package/contents/fonts/Inter-LICENSE.txt`), cut down to the Latin scripts and named *Solar Now Inter*, so that it does not stand in for an Inter installed on the system; `tools/fonts/subset.py` makes it, with fontTools. The fonts in `tools/store/fonts/` are Noto Sans, under the SIL Open Font License.
 
 Solar Now is free software, under the GNU General Public License, version 2 or later. See [LICENSE](LICENSE).

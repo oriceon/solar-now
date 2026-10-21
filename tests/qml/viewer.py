@@ -14,6 +14,7 @@ Exits with 1 when QML reported an error or a warning, so a broken binding does n
 """
 
 import argparse
+import ctypes
 import hashlib
 import json
 import os
@@ -24,6 +25,10 @@ from datetime import date, datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+
+# No core dump if Qt crashes: in a container that shares the kernel of the desktop, the dump goes to
+# the crash handler of the desktop, which reports a crash of its own Python on the screen.
+ctypes.CDLL(None, use_errno=True).prctl(4, 0, 0, 0, 0)
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("QT_QUICK_BACKEND", "software")

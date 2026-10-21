@@ -251,7 +251,15 @@ ConfigPage {
             Kirigami.FormData.label: I18n.t(page.language, "config.password")
             Layout.minimumWidth: Kirigami.Units.gridUnit * 16
 
-            onAccepted: page.connect()
+            function connectOnReturn(event: var): void {
+                event.accepted = true;
+                page.connect();
+            }
+
+            // Return is taken here: let through, it reached the settings dialog, which took it for OK
+            // and closed before the connection had answered, and what it brought was not kept.
+            Keys.onReturnPressed: event => passwordField.connectOnReturn(event)
+            Keys.onEnterPressed: event => passwordField.connectOnReturn(event)
         }
 
         QQC2.Label {

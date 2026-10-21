@@ -18,7 +18,10 @@ QtObject {
     }
 
     function send(title: string, text: string): void {
-        // A notification deletes itself once it is closed.
-        message.createObject(notifier, { title: title, text: text }).sendEvent();
+        // A notification deletes itself once it is closed. Its text is read as markup, and the name of
+        // an alert comes from Deye Cloud: "Grid voltage < 180 V" is to read as it is written.
+        const plain = String(text).replace(/[&<>]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[character]);
+
+        message.createObject(notifier, { title: title, text: plain }).sendEvent();
     }
 }

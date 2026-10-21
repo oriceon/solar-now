@@ -161,7 +161,12 @@ ColumnLayout {
         textFormat: Text.StyledText
         text: tab.forecastText
 
-        onLinkActivated: link => Qt.openUrlExternally(link)
+        // Only a website opens, whatever the text holds.
+        onLinkActivated: link => {
+            if (/^https?:\/\/\S+$/.test(link)) {
+                Qt.openUrlExternally(link);
+            }
+        }
 
         HoverHandler {
             cursorShape: forecastLine.hoveredLink !== "" ? Qt.PointingHandCursor : Qt.ArrowCursor

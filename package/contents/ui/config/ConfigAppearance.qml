@@ -75,7 +75,7 @@ ConfigPage {
 
             QQC2.Label {
                 // Empty is the font of the Plasma theme.
-                text: page.cfg_fontFamily !== "" ? page.cfg_fontFamily : I18n.t(page.language, "config.fontTheme")
+                text: page.cfg_fontFamily !== "" ? page.cfg_fontFamily : I18n.t(page.language, "config.fontWidget")
             }
 
             QQC2.Button {
@@ -83,7 +83,7 @@ ConfigPage {
                 text: I18n.t(page.language, "config.fontChoose")
 
                 onClicked: {
-                    fontDialog.selectedFont = Qt.font({ family: page.cfg_fontFamily !== "" ? page.cfg_fontFamily : Kirigami.Theme.defaultFont.family });
+                    fontDialog.selectedFont = Qt.font({ family: page.cfg_fontFamily !== "" ? page.cfg_fontFamily : "Solar Now Inter" });
                     fontDialog.open();
                 }
             }

@@ -18,6 +18,9 @@ PlasmoidItem {
     /** Follows the language of the Plasma interface unless a language is forced in the settings. */
     readonly property string language: I18n.resolveLanguage(Plasmoid.configuration.language, Qt.locale().uiLanguages)
     readonly property real fontScale: Plasmoid.configuration.fontScale / 100
+    readonly property WidgetFonts widgetFonts: WidgetFonts {}
+    /** The font chosen in the settings, or Inter, which comes with the widget; the theme's until it has loaded. */
+    readonly property string fontFamily: Plasmoid.configuration.fontFamily !== "" ? Plasmoid.configuration.fontFamily : widgetFonts.text
     readonly property var colours: ({
         solar: Plasmoid.configuration.colorSolar,
         grid: Plasmoid.configuration.colorGrid,
@@ -165,6 +168,7 @@ PlasmoidItem {
     }
 
     compactRepresentation: CompactRepresentation {
+        fontFamily: root.fontFamily
         flow: root.flow
         live: root.status === "ready"
         items: Plasmoid.configuration.compactItems
@@ -193,7 +197,7 @@ PlasmoidItem {
         now: root.now
         language: root.language
         fontScale: root.fontScale
-        fontFamily: Plasmoid.configuration.fontFamily
+        fontFamily: root.fontFamily
         animations: Plasmoid.configuration.animations
         background: Plasmoid.configuration.background
         backgroundTransparency: Plasmoid.configuration.backgroundTransparency

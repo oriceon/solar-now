@@ -11,6 +11,8 @@ function defaultOf(name) {
     return entry ? entry[1] : undefined;
 }
 
-test('a new widget takes the background of the Plasma theme', () => {
-    assert.equal(defaultOf('background'), 'theme');
+// Plasma does not save a value equal to the default, so a new default changes every widget that kept it.
+test('a new widget is transparent, with a fifth of the colour of the theme', () => {
+    assert.equal(defaultOf('background'), 'none');
+    assert.equal(defaultOf('backgroundTransparency'), '80');
 });

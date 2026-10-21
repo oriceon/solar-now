@@ -17,7 +17,7 @@ Also
 - Estimate of today's and tomorrow's production, learned from the last two weeks of your own installation and the solar radiation forecast by Open-Meteo (can be turned off)
 - Several stations on one account: pick one from the header
 - English and Romanian; follows the language of Plasma by default
-- Colours, background, font, text size, units, animations and visible tabs are configurable
+- Inter as its font, included, or any other one; colours, background, text size, units, animations and visible tabs are configurable
 
 What you need
 - A Deye Cloud account with your installation in it
@@ -37,4 +37,5 @@ The screenshots show data recorded from a real installation.
 Source code and issues: https://github.com/oriceon/solar-now
 
 Solar radiation data: Open-Meteo (open-meteo.com), CC BY 4.0.
+Font: Inter, included (SIL Open Font License 1.1).
 Licence: GPL-2.0-or-later.

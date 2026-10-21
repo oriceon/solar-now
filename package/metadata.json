@@ -14,7 +14,7 @@
         "Id": "ro.oriceon.solar",
         "License": "GPL-2.0-or-later",
         "Name": "Solar Now",
-        "Version": "1.0.6"
+        "Version": "1.0.7"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
 }

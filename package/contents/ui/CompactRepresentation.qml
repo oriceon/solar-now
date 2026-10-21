@@ -25,6 +25,8 @@ MouseArea {
     /** auto | w | kw */
     required property string powerUnit
     required property string language
+    /** The font of the widget; empty for the theme's. */
+    property string fontFamily: ""
     /** Percent under which the battery is drawn as low. */
     required property real lowBattery
 
@@ -90,6 +92,7 @@ MouseArea {
                 }
 
                 PlasmaComponents.Label {
+                    font.family: compact.fontFamily !== "" ? compact.fontFamily : Kirigami.Theme.defaultFont.family
                     text: compact.textFor(entry.modelData)
                 }
             }
@@ -108,7 +111,7 @@ MouseArea {
             clock: 0
             // The percentage is written next to the icon here.
             percentText: ""
-            fontFamily: Kirigami.Theme.defaultFont.family
+            fontFamily: compact.fontFamily !== "" ? compact.fontFamily : Kirigami.Theme.defaultFont.family
         }
     }
 
